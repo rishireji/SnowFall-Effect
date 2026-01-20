@@ -1,0 +1,5 @@
+{
+  "name": "FrostFrame Snow Engine",
+  "description": "A high-performance, configurable JavaScript snowfall engine overlaid on dynamic AI-generated content. Features wind interaction, physics-based particles, and customizable weather presets.",
+  "requestFramePermissions": []
+}
