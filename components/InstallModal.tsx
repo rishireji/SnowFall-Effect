@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { X, ArrowRight, MousePointerClick, Globe } from 'lucide-react';
 import { getBookmarkletCode } from '../utils/bookmarklet';
 
@@ -8,9 +8,16 @@ interface InstallModalProps {
 }
 
 const InstallModal: React.FC<InstallModalProps> = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-
+  const linkRef = useRef<HTMLAnchorElement>(null);
   const bookmarkletHref = getBookmarkletCode();
+
+  useEffect(() => {
+    if (isOpen && linkRef.current) {
+      linkRef.current.href = bookmarkletHref;
+    }
+  }, [isOpen, bookmarkletHref]);
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -47,16 +54,17 @@ const InstallModal: React.FC<InstallModalProps> = ({ isOpen, onClose }) => {
                <h3 className="font-semibold text-blue-900 text-sm">How to install</h3>
                <p className="text-blue-700 text-xs mt-1 leading-relaxed">
                  Drag the button below to your browser's <strong>Bookmarks Bar</strong>.
+                 <br/>
+                 <span className="text-blue-500/80">You can also click it now to test!</span>
                </p>
              </div>
           </div>
 
           <div className="flex flex-col items-center justify-center py-4 border-dashed border-2 border-gray-200 rounded-xl bg-gray-50/50">
             <a 
-              href={bookmarkletHref}
+              ref={linkRef}
               className="cursor-move group relative inline-flex items-center gap-2 px-6 py-3 bg-gray-900 text-white font-semibold rounded-full shadow-lg hover:shadow-xl hover:bg-gray-800 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
-              title="Drag me to your bookmarks bar!"
-              onClick={(e) => e.preventDefault()} // Prevent click, meant for dragging
+              title="Drag to bookmarks or click to test"
             >
               <span>❄️ FrostFrame Activate</span>
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />

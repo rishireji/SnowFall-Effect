@@ -7,7 +7,6 @@ export const getBookmarkletCode = () => {
   }
   window.frostFrameActive = true;
 
-  // --- Configuration ---
   let config = {
     particleCount: 150,
     baseSpeed: 1.5,
@@ -16,7 +15,6 @@ export const getBookmarkletCode = () => {
     opacity: 0.8,
   };
 
-  // --- Styles ---
   const style = document.createElement('style');
   style.innerHTML = \`
     .ff-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999999; }
@@ -42,13 +40,11 @@ export const getBookmarkletCode = () => {
   \`;
   document.head.appendChild(style);
 
-  // --- Canvas ---
   const canvas = document.createElement('canvas');
   canvas.className = 'ff-overlay';
   document.body.appendChild(canvas);
   const ctx = canvas.getContext('2d');
 
-  // --- Engine Logic ---
   class Particle {
     constructor(w, h, cfg) {
       this.init(w, h, cfg);
@@ -111,7 +107,6 @@ export const getBookmarkletCode = () => {
   resize();
   loop();
 
-  // --- UI Controls ---
   const panel = document.createElement('div');
   panel.className = 'ff-controls';
   panel.innerHTML = \`
@@ -136,7 +131,6 @@ export const getBookmarkletCode = () => {
   \`;
   document.body.appendChild(panel);
 
-  // --- UI Logic ---
   const updateEngine = () => {
     const countDiff = config.particleCount - particles.length;
     if (countDiff > 0) {
@@ -187,6 +181,7 @@ export const getBookmarkletCode = () => {
 })();
   `;
 
-  // Minify slightly by removing newlines and double spaces to keep the href cleaner
+  // Remove comments before collapsing whitespace to avoid "Unexpected end of input"
+  // The code variable above has had comments manually removed.
   return `javascript:${encodeURIComponent(code.replace(/\s+/g, ' ').trim())}`;
 };
